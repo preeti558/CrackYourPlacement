@@ -1,0 +1,18 @@
+49.Group Anagrams
+
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        if(strs==null || strs.length==0) return new ArrayList<>(); //Base case : if string is empty
+        Map<String,List<String>> map = new HashMap<>();           // cerating a Hashmap for storing data
+        for(String s : strs){
+            char[] ch = s.toCharArray();    
+            Arrays.sort(ch);
+            String keystr = String.valueOf(ch);
+
+            if(!map.containsKey(keystr)) map.put(keystr,new ArrayList<>());
+            map.get(keystr).add(s);
+
+        }
+      return new ArrayList<>(map.values());
+    }
+}
