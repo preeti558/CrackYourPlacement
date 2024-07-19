@@ -1,0 +1,33 @@
+226. Invert Binary Tree
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public TreeNode invertTree(TreeNode root) {
+      if(root==null) return root; //Base case : if tree is empty
+      invertTree(root.left);    //recursive call for left subtree
+      invertTree(root.right);  //recursive call for right subtree
+
+      //swapping process
+      TreeNode curr = root.left;
+      root.left=root.right;
+      root.right=curr;
+
+      return root;
+
+    }
+   
+}
