@@ -1,0 +1,36 @@
+76. Minimum Window Substring
+
+class Solution {
+    public String minWindow(String st, String t) {
+        int[] freq = new int[128];
+        for(char c : t.toCharArray()){
+            freq[c]++;
+        }
+        int s =0, e =0, res = Integer.MAX_VALUE;
+        int Start =0, seen =0;
+        char[] source = st.toCharArray();
+
+        while(e< st.length()){
+            char temp = source[e];
+            if(freq[temp]>0){
+                seen++;
+            }
+            freq[temp]--;
+            e++;
+
+            while(seen==t.length()){
+                if(e-s < res){
+                    Start =s;
+                    res = e-s;
+                }
+                char startChar = source[s];
+                if(freq[startChar]==0){
+                    seen--;
+                }
+                freq[startChar]++;
+                s++;
+            }
+        }
+        return res==Integer.MAX_VALUE ? "" : st.substring(Start, Start+res);
+    }
+}
