@@ -1,0 +1,30 @@
+474. Ones and Zeroes
+
+class Solution {
+    public int findMaxForm(String[] str, int m, int n) {
+        int[][] dp = new int[m+1][n+1];
+        for(String s : str){
+            int[] count = Count(s);
+            //Zero m-count[0] ----0
+            //one n-count[1]  ----1
+
+            for(int i=m ;i>=count[0] ;i--){
+                for(int j=n ;j>=count[1] ;j--){
+                    dp[i][j] = Math.max(dp[i-count[0]][j-count[1]]+1 , dp[i][j]);
+
+                }
+            }
+
+        }
+        return dp[m][n];
+    }
+    
+    int[] Count(String s){
+        int[] count = new int[2];
+        for(char c :s.toCharArray()){
+            count[c-'0']++;
+        }
+        return count;
+    }
+
+}
