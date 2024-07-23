@@ -1,0 +1,23 @@
+740. Delete and Earn
+
+class Solution {
+    public int deleteAndEarn(int[] nums) {
+        
+        if(nums.length==0){
+            return 0;
+        }
+
+        int[] value = new int[10001];
+        for(int num : nums){
+            value[num]+=num;
+        }
+        int prev1=0 , prev2=0;
+        
+        for(int val : value){
+            int temp=prev1;
+            prev1 = Math.max(prev1 ,prev2+val);
+            prev2=temp;
+        }
+        return prev1;
+    }
+}
