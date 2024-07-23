@@ -1,0 +1,28 @@
+62. Unique Paths
+
+class Solution {
+    public int uniquePaths(int m, int n) {
+        int[] currRow = new int[n];
+        int[] prevRow = new int[n];
+
+        // Initialize the first row with 1s
+        for (int i = 0; i < n; i++) {
+            currRow[i] = 1;
+            prevRow[i] = 1;
+        }
+
+        // Iterate over each row starting from the second row
+        for (int i = 1; i < m; i++) {
+            // Iterate over each column starting from the second column
+            for (int j = 1; j < n; j++) {
+                // Calculate the number of paths to the current cell
+                currRow[j] = currRow[j - 1] + prevRow[j];
+            }
+            // Update the current row to be the previous row
+            prevRow = currRow.clone();
+        }
+
+        // Return the number of paths to the last cell (bottom-right corner)
+        return prevRow[n - 1];
+    }
+}
