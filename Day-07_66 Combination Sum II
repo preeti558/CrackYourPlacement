@@ -1,0 +1,30 @@
+40. Combination Sum II
+
+class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        
+        List<List<Integer>> list=new LinkedList<List<Integer>>();
+        Arrays.sort(candidates);
+        backtrack(list,new ArrayList<>(),candidates,target,0);
+        return list;
+       
+    }
+    public void backtrack(List<List<Integer>>list, List<Integer> templist, int[] cand, int remain ,int start){
+
+        if(remain<0){
+            return;
+        }else if(remain==0){
+            list.add(new ArrayList<>(templist));
+        }else{
+            for(int i=start;i<cand.length;i++){
+                if(i>start && cand[i]==cand[i-1]){
+                    continue;
+                }else{
+                    templist.add(cand[i]);
+                    backtrack(list,templist,cand,remain-cand[i],i+1);
+                    templist.remove(templist.size()-1);
+                }
+            }
+        }
+    }
+}
