@@ -1,0 +1,29 @@
+974. Subarray Sums Divisible by K
+
+class Solution {
+    public int subarraysDivByK(int[] nums, int k) {
+
+//        Remainder at index i = Remainder at index j
+//     S2 % k = S1 % k
+//   S2 % k - S1 % k = 0
+//   (S2 - S1) % k = 0
+//   (Sum of subarray from i + 1 to j) % k = 0
+        
+     Map<Integer , Integer> map = new HashMap<>();
+     map.put(0,1);
+
+     int runningSum =0 , ans =0;
+
+     for(int n : nums){
+        runningSum+=n;
+        int rem = runningSum % k;
+        if(rem <0){
+            rem+=k;
+        }
+        ans+= map.getOrDefault(rem, 0);
+        map.put(rem, 1+map.getOrDefault(rem, 0));
+     }
+     return ans;
+
+    }
+}
