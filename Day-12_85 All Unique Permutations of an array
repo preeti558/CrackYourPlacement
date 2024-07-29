@@ -1,0 +1,35 @@
+All Unique Permutations of an array (Gfg)
+
+class Solution {
+    static ArrayList<ArrayList<Integer>> uniquePerms(ArrayList<Integer> arr , int n) {
+        // code here
+        ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
+        ArrayList<Integer> curr = new ArrayList<>();
+        
+        boolean[] visit = new boolean[n];
+        Collections.sort(arr);
+        helper(arr, n, visit , curr , ans);
+        
+        return ans;
+    }
+    
+   static void helper(ArrayList<Integer>arr, int n, boolean[] visit , ArrayList<Integer>curr, ArrayList<ArrayList<Integer>> ans){
+        //Base condition
+        if(curr.size()==n){
+            ans.add(new ArrayList<>(curr));
+            return;
+        }
+        for(int i=0 ;i<n ;i++){
+            if(visit[i] || (i>0 && arr.get(i)== arr.get(i-1) && !visit[i-1])){
+                continue;
+            } 
+            
+            visit[i] = true;
+            curr.add(arr.get(i));
+            helper(arr, n, visit , curr, ans);
+            visit[i] = false;
+            curr.remove(curr.size()-1);
+        }
+    }
+    
+};
