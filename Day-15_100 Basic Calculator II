@@ -1,0 +1,29 @@
+227. Basic Calculator II
+
+class Solution {
+    public int calculate(String s) {
+        if(s==null || s.length()==0) return 0;
+        int num=0, temp=0, res=0;
+        char op ='+';
+        for(char c : s.toCharArray()){
+            if(Character.isDigit(c)){
+                temp = temp*10+c-'0';
+            }else if(c!=' '){
+                num = cal(num, temp , op);
+                if(c=='+' || c=='-'){
+                    res+=num;
+                    num=0;
+                }
+                temp =0;
+                op=c;
+            }
+        }
+        return res+cal(num, temp, op);
+    }
+    private int cal(int num, int temp, char op){
+        if(op=='+') return num+temp;
+        else if(op=='-') return num-temp;
+        else if(op=='*') return num*temp;
+        else return num/temp;
+    }
+}
