@@ -1,0 +1,21 @@
+83. Remove Duplicates from Sorted List
+
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        HashSet<Integer> set = new HashSet<>();
+        ListNode curr = head , prev =null;
+
+        while(curr!=null){
+            if(!set.contains(curr.val)){
+                set.add(curr.val);
+                prev = curr;
+            }else{
+
+                prev.next = curr.next;
+
+            }
+            curr = curr.next;
+        }
+        return head;
+    }
+}
