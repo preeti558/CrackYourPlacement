@@ -1,0 +1,15 @@
+Delete nodes having greater value on right(Gfg)
+
+class Solution
+{
+    Node compute(Node head)
+    {
+         if(head.next == null) return head;
+        
+        Node max = compute(head.next);
+        
+        if(head.data < max.data) return max;
+        head.next = max;
+        return head;
+    }
+}
