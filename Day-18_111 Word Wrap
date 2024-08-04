@@ -1,0 +1,32 @@
+Word Wrap (Gfg)
+
+class Solution
+{
+    public int solveWordWrap (int[] nums, int k)
+    {
+        // Code here 
+        int dp[][] = new int[nums.length+1][k+2];
+        for(int row[] : dp) Arrays.fill(row, -1);
+        return solve(nums,k,0,k,dp);
+    }
+    int solve(int[] nums, int unusedspace, int i, int k, int dp[][]){
+        //base case
+        if(i>=nums.length){
+            return 0;
+        }
+        if(dp[i][unusedspace+1]!=-1){
+            return dp[i][unusedspace+1];
+        }
+        
+        int ans;
+        
+        if(unusedspace-nums[i]<0){
+            ans = (unusedspace+1)*(unusedspace+1)+ solve(nums, k-nums[i]-1, i+1, k, dp);
+        }else{
+            int take = (unusedspace+1) * (unusedspace+1) +solve(nums, k-nums[i]-1, i+1, k, dp);
+            int notTake = solve(nums, unusedspace-nums[i]-1, i+1, k, dp);
+            ans = Math.min(take, notTake);
+        }
+        return dp[i][unusedspace+1] = ans;
+    }
+}
