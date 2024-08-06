@@ -1,0 +1,28 @@
+Permutations in array(Gfg)
+
+class Solution {
+    public boolean isPossible(int k, int[] a, int[] b) {
+        // Your code goes here.
+         // Your code goes here.
+        Arrays.sort(a);
+        Arrays.sort(b);
+       reversearr(b);
+        for(int i=0;i<a.length;i++){
+            if(a[i]+b[i]<k){
+                return false;
+            }
+        }
+                return true;
+    }
+    public void reversearr(int[] b){
+        //int i=0;
+        int n=b.length;
+       // int j=n-1;
+        for(int i=0,j=n-1; i<j; i++,j--){
+            int temp=b[i];
+            b[i]=b[j];
+            b[j]=temp;
+           
+        }
+    }
+}
