@@ -1,0 +1,29 @@
+Minimum Swaps to Sort(Gfg)
+
+class Solution
+{
+    //Function to find the minimum number of swaps required to sort the array.
+    public int minSwaps(int nums[])
+    {
+         int n = nums.length;
+      int swapMin = 0;
+      HashMap<Integer, Integer> map = new HashMap<>();
+      
+      for(int i = 0; i < n; i++){
+          map.put(nums[i], i);
+      }
+      Arrays.sort(nums);
+      for(int i = 0; i < n; i++){
+          while(map.get(nums[i]) != i){
+              swapMin++;
+              int swapVar = nums[i];
+              int temp = map.get(nums[i]);
+              nums[i] = nums[temp];
+              nums[temp] = swapVar;
+              
+              map.put(swapVar, temp);
+          }
+      }
+      return swapMin;
+    }
+}
