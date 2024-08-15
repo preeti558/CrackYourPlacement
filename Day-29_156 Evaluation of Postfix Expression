@@ -1,0 +1,45 @@
+Evaluation of Postfix Expression(Gfg)
+
+class Solution
+{
+    //Function to evaluate a postfix expression.
+    public static int evaluatePostFix(String S)
+    {
+        // Your code here
+         // Initialize a stack to store operands
+        Stack<Integer> stack = new Stack<>();
+
+        // Traverse through the characters of the string
+        for (int i = 0; i < S.length(); i++) {
+            char ch = S.charAt(i);
+
+            // If the character is a digit, push it to the stack
+            if (Character.isDigit(ch)) {
+                stack.push(ch - '0');  // Convert character to integer
+            } 
+            // If the character is an operator, pop two elements from the stack,
+            // apply the operator and push the result back to the stack
+            else {
+                int val1 = stack.pop();
+                int val2 = stack.pop();
+
+                switch (ch) {
+                    case '+':
+                        stack.push(val2 + val1);
+                        break;
+                    case '-':
+                        stack.push(val2 - val1);
+                        break;
+                    case '*':
+                        stack.push(val2 * val1);
+                        break;
+                    case '/':
+                        stack.push(val2 / val1);
+                        break;
+                }
+            }
+        }
+        // The final result will be at the top of the stack
+        return stack.pop();
+    }
+}
