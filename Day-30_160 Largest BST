@@ -1,0 +1,43 @@
+Largest BST (Gfg)
+
+class Tuple {
+    public int max, min, size;
+    public Tuple(int max, int min, int size) {
+        this.max = max;
+        this.min = min;
+        this.size = size;
+    }
+    
+}
+
+class Solution{
+    
+    // Return the size of the largest sub-tree which is also a BST
+    static int largestBst(Node root)
+    {
+        // Write your code here
+        return postOrder(root).size;
+        
+    }
+    
+    static Tuple postOrder(Node root) {
+        if(root == null) return new Tuple(Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
+        
+        Tuple left = postOrder(root.left);
+        Tuple right = postOrder(root.right);
+        
+        Tuple temp = new Tuple(0, 0, 0);
+        if(root.data<right.min && root.data>left.max) {
+            temp.size = 1 + left.size + right.size;
+            temp.min = Math.min(left.min, root.data);
+            temp.max = Math.max(right.max, root.data);
+        } else {
+            temp.size = Math.max(left.size, right.size);
+            temp.min = Integer.MIN_VALUE;
+            temp.max = Integer.MAX_VALUE;
+        }
+        return temp;
+        
+    }
+    
+}
