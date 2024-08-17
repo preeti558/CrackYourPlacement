@@ -1,0 +1,108 @@
+327. Count of Range Sum
+
+class NumArray {
+    SegmentTree segmentTree;
+    int n;
+
+    public NumArray(int[] nums) {
+        n = nums.length;
+        segmentTree = new SegmentTree(nums);
+    }
+    
+    public void update(int index, int val) {
+        segmentTree.update(0, 0, n - 1, index, val);
+    }
+    
+    public int sumRange(int left, int right) {
+        return segmentTree.getSum(0, 0, n - 1, left, right);
+    }
+}
+
+class SegmentTree{
+    int[] tree;
+    int n;
+    int[] nums;
+    
+    
+    public SegmentTree(int[] nums){
+        this.nums = nums;
+        n = nums.length;
+        
+		//reason for 4 * n
+		//https://leetcode.com/problems/range-sum-query-mutable/discuss/1247355/Java-Simple-and-easy-using-Segment-Tree-solution-clean-code-with-comments/980720
+        tree = new int[4 * n];
+        
+        buildTree(0, 0, n - 1);
+    }
+    
+    private void buildTree(int treeIndex, int l, int r){
+        if(l == r){
+            tree[treeIndex] = nums[l];
+            return;
+        }
+        
+        int mid = l + ((r - l) / 2);
+        
+        //left subtree
+        int leftChildIndex  = 2 * treeIndex + 1;
+        buildTree(leftChildIndex, l, mid);
+        
+        //right subtree
+        int rightChildIndex = 2 * treeIndex + 2;
+        buildTree(rightChildIndex, mid + 1, r);
+        
+        //save the sum of both child
+        tree[treeIndex] = tree[leftChildIndex] + tree[rightChildIndex];
+    }
+    
+    
+    public int getSum(int treeIndex, int l, int r, int i, int j){
+        if(l > j || r < i) return 0;
+        
+        if(l >= i && r <= j) return tree[treeIndex];
+        
+        int mid = l + (r - l) / 2;
+        
+        int leftChildIndex = 2 * treeIndex + 1;
+        int rightChildIndex = 2 * treeIndex + 2;
+        
+        if(j <= mid){
+            
+            //As required range will be first half (left subtree)
+            //just check the first half 
+            return getSum(leftChildIndex, l, mid, i, j);
+        }else if(i > mid){
+            
+            //As required range will be 2nd half (right subtree)
+            //just check the 2nd half only
+            return getSum(rightChildIndex, mid + 1, r, i, j);
+        }
+        
+        return getSum(leftChildIndex, l, mid, i, mid) + getSum(rightChildIndex, mid + 1, r, mid + 1, j);
+    }
+    
+    public void update(int treeIndex, int l, int r, int index, int val){
+        if(l == r){
+            tree[treeIndex] = val;
+            return;
+        }
+        
+        int mid = l + (r - l) / 2;
+        
+        int leftChildIndex  = 2 * treeIndex + 1;
+        int rightChildIndex  = 2 * treeIndex + 2;
+        
+        if(index <= mid){
+            update(leftChildIndex, l, mid, index, val);
+        }else if(index > mid){
+            update(rightChildIndex, mid + 1, r, index, val);
+        }
+        
+        
+        //save the sum of both child
+        tree[treeIndex] = tree[leftChildIndex] + tree[rightChildIndex];
+    }
+    
+    
+    
+}
