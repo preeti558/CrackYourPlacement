@@ -1,0 +1,33 @@
+The Celebrity Problem(Gfg)
+
+class Solution {
+    // Function to find if there is a celebrity in the party or not.
+   public int celebrity(int mat[][]) {
+        // code here
+        Stack<Integer> s=new Stack<>();
+        for(int i=0;i<mat.length;i++){
+            s.push(i);
+        }
+        while(s.size()>1){
+            int a=s.pop();
+            int b=s.pop();
+            if(mat[a][b]==1){
+                s.push(b);
+            }
+            else{
+                s.push(a);
+            }
+        }
+        int end=s.pop();
+        for(int i=0;i<mat[0].length;i++){
+            if(mat[end][i]!=0){
+                return -1;
+            }
+            if(i!=end && mat[i][end]!=1){
+                return -1;
+            }
+        }
+        return end;
+        
+    }
+}
