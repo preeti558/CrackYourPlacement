@@ -1,0 +1,33 @@
+Construct Tree from Preorder Traversal(Gfg)
+
+/*class Node{
+    int data;
+    Node left,right;
+    Node(int d)
+    {
+        data=d;
+        left=right=null;
+    }
+}*/
+class Solution{
+   Node constructTree(int size, int pre[], char preLN[]){
+	   int[] index = {0};
+        return constructTree(pre, preLN, index, size);
+    }
+
+
+    private Node constructTree(int pre[], char preLN[], int[] index, int size) {
+        if (index[0] >= size) return null;
+
+        Node root = new Node(pre[index[0]]);
+        if (preLN[index[0]] == 'N') {
+            index[0]++;
+            root.left = constructTree(pre, preLN, index, size);
+            root.right = constructTree(pre, preLN, index, size);
+        } else {
+            index[0]++;
+        }
+
+        return root;
+    }
+}
