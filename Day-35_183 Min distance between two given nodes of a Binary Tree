@@ -1,0 +1,55 @@
+Min distance between two given nodes of a Binary Tree(Gfg)
+
+class GfG {
+   int findDist(Node root, int a, int b) {
+        // Step 1: Find the Lowest Common Ancestor (LCA) of a and b
+        Node lca = findLCA(root, a, b);
+        
+        // Step 2: Calculate the distance from LCA to a and from LCA to b
+        int distA = findLevel(lca, a, 0);
+        int distB = findLevel(lca, b, 0);
+        
+        // Step 3: Return the total distance
+        return distA + distB;
+    }
+    
+    // Helper function to find the LCA of two nodes
+    Node findLCA(Node root, int a, int b) {
+        if (root == null) {
+            return null;
+        }
+        
+        // If either a or b matches with root's key, report the presence by returning root
+        if (root.data == a || root.data == b) {
+            return root;
+        }
+        
+        // Look for keys in left and right subtrees
+        Node leftLCA = findLCA(root.left, a, b);
+        Node rightLCA = findLCA(root.right, a, b);
+        
+        // If both of the above calls return non-null, then one key is in one subtree and the other is in the other subtree
+        if (leftLCA != null && rightLCA != null) {
+            return root;
+        }
+        
+        // Otherwise check if left subtree or right subtree is LCA
+        return (leftLCA != null) ? leftLCA : rightLCA;
+    }
+    
+    // Helper function to find the level (distance from the root) of a given key in the binary tree
+    int findLevel(Node root, int key, int level) {
+        if (root == null) {
+            return -1;
+        }
+        if (root.data == key) {
+            return level;
+        }
+        
+        int left = findLevel(root.left, key, level + 1);
+        if (left == -1) {
+            return findLevel(root.right, key, level + 1);
+        }
+        return left;
+    }
+}
