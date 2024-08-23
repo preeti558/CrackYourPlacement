@@ -1,0 +1,29 @@
+DFS of Graph(Gfg)
+
+class Solution {
+    // Function to return a list containing the DFS traversal of the graph.
+    public ArrayList<Integer> dfsOfGraph(int V, ArrayList<ArrayList<Integer>> adj) {
+        // Code here
+        ArrayList<Integer> dfs = new ArrayList<>(); // List to store DFS traversal result
+        boolean[] visited = new boolean[V]; // Array to keep track of visited nodes
+        
+        // Perform DFS from the first node (assuming 0 is the starting node)
+        dfsHelper(0, visited, adj, dfs);
+        
+        return dfs;
+    }
+    
+    // Helper function for performing DFS
+    private void dfsHelper(int node, boolean[] visited, ArrayList<ArrayList<Integer>> adj, ArrayList<Integer> dfs) {
+        visited[node] = true; // Mark the current node as visited
+        dfs.add(node); // Add the current node to the DFS result list
+        
+        // Visit all the adjacent nodes of the current node
+        for (int neighbor : adj.get(node)) {
+            if (!visited[neighbor]) {
+                dfsHelper(neighbor, visited, adj, dfs); // Recursively perform DFS on unvisited neighbors
+            }
+        }
+        
+    }
+}
