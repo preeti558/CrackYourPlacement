@@ -1,0 +1,43 @@
+Steps by Knight(Gfg)
+
+class Solution
+{
+     int[][] dir = {{-2,1},{-2,-1},{-1,2},{-1,-2},{1,2},{1,-2},{2,-1},{2,1}};
+    //Function to find out minimum steps Knight needs to reach target position.
+    public int minStepToReachTarget(int KnightPos[], int TargetPos[], int n)
+    {
+        KnightPos[0] -= 1;
+        KnightPos[1] -= 1;
+        TargetPos[0] -= 1;
+        TargetPos[1] -= 1;
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[]{KnightPos[0],KnightPos[1],0});
+        boolean[][] vis = new boolean[n][n];
+        vis[KnightPos[0]][KnightPos[1]] = true;
+        int[][] dis = new int[n][n];
+        for(int[] d : dis){
+            Arrays.fill(d,(int)1e9);
+        }
+        dis[KnightPos[0]][KnightPos[1]] = 0;
+        
+        while(!q.isEmpty()){
+            int[] node = q.poll();
+            int row = node[0];
+            int col = node[1];
+            int d = node[2];
+            if(row == TargetPos[0] && col == TargetPos[1]) return dis[row][col];
+            for(int i=0;i<8;++i){
+                int nr = row + dir[i][0];
+                int nc = col + dir[i][1];
+                
+                if(nr >=0 && nc >=0 && nr<n&& nc< n && !vis[nr][nc] && dis[nr][nc] > 1 + d){
+                    dis[nr][nc] = 1 + d;
+                    q.offer(new int[]{nr,nc,1 +d});
+                    vis[nr][nc] = true;
+                }
+            }
+        }
+        return dis[TargetPos[0]][TargetPos[1]] == (int)1e9?-1:dis[TargetPos[0]][TargetPos[1]] ;
+        
+    }
+}
