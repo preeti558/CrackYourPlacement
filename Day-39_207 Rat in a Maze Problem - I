@@ -1,0 +1,27 @@
+Rat in a Maze Problem - I (Gfg)
+
+class Solution {
+    public ArrayList<String> findPath(int[][] mat) {
+        // Your code here
+         ArrayList<String> result=new ArrayList<>();
+        int[][] visited=new int[mat.length][mat[0].length];
+        if(mat[0][0] == 0 || mat[mat.length-1][mat[0].length-1] ==0) return result;
+        util(mat,0,0,result,"",visited);
+        return  result;
+    }
+    public void util(int[][] mat,int i,int j,ArrayList<String> result,String curr,int[][] visited){
+        if(i < 0 || j< 0 || i>=mat.length || j>=mat[0].length || mat[i][j]==0 || visited[i][j] == 1) 
+        return;
+        if(i==mat.length-1 && j==mat[0].length-1) {
+            result.add(curr);
+            return;
+        }
+        visited[i][j]=1;
+        util(mat,i+1,j,result,curr+"D",visited);
+        util(mat,i,j+1,result,curr+"R",visited);
+        util(mat,i-1,j,result,curr+"U",visited);
+        util(mat,i,j-1,result,curr+"L",visited);
+        visited[i][j]=0;
+        return;
+    }
+}
