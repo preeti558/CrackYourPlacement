@@ -1,0 +1,47 @@
+Minimum Spanning Tree(Gfg)
+
+class Solution {
+    static int spanningTree(int V, int E, List<List<int[]>> adj) {
+        // Code Here.
+        
+         PriorityQueue<int[]> minHeap = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
+        boolean[] inMST = new boolean[V]; // To track vertices included in MST
+        int[] minWeight = new int[V]; // Minimum weight edge to reach each vertex
+        Arrays.fill(minWeight, Integer.MAX_VALUE);
+        
+        // Initialize with the first vertex
+        minWeight[0] = 0; // Starting vertex
+        minHeap.add(new int[]{0, 0}); // {vertex, weight}
+        
+        int totalWeight = 0;
+        
+        while (!minHeap.isEmpty()) {
+            // Get the vertex with the minimum weight edge
+            int[] edge = minHeap.poll();
+            int u = edge[0];
+            int weight = edge[1];
+            
+            // Skip if the vertex is already in MST
+            if (inMST[u]) {
+                continue;
+            }
+            
+            // Include vertex in MST
+            inMST[u] = true;
+            totalWeight += weight;
+            
+            // Update the priority queue with new edges
+            for (int[] neighbor : adj.get(u)) {
+                int v = neighbor[0];
+                int edgeWeight = neighbor[1];
+                
+                if (!inMST[v] && edgeWeight < minWeight[v]) {
+                    minWeight[v] = edgeWeight;
+                    minHeap.add(new int[]{v, edgeWeight});
+                }
+            }
+        }
+        
+        return totalWeight;
+    }
+}
