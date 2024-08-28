@@ -1,0 +1,47 @@
+Alien Dictionary(Gfg)
+
+class Solution {
+     public String findOrder(String[] dict, int n, int k) {
+        
+       ArrayList<ArrayList<Integer>> arrayList=new ArrayList<>();
+       for (int i=0;i<k;i++)arrayList.add(new ArrayList<>());
+
+       for (int i=0;i<n-1;i++){
+           String s1=dict[i];
+           String s2=dict[i+1];
+           int size=Math.min(s1.length(),s2.length());
+           for (int j=0;j<size;j++){
+               if(s1.charAt(j)!=s2.charAt(j)){
+                   arrayList.get(s1.charAt(j)-'a').add(s2.charAt(j)-'a');
+                   break;
+               }
+           }
+       }
+        //System.out.println(arrayList.get(0).size());
+       int indegree[]=new int[k];
+       for (int i=0;i<k;i++){
+           for (int child: arrayList.get(i)){
+               indegree[child]++;
+           }
+       }
+       Queue<Integer>queue=new LinkedList<>();
+       for (int i=0;i<k;i++){
+           if(indegree[i]==0)queue.add(i);
+       }
+       //System.out.println(queue.size());
+
+       String ans="";
+       while (!queue.isEmpty()){
+           int node=queue.poll();
+           ans=ans+(char)(node+'a');
+           for(int neighbour: arrayList.get(node)){
+               indegree[neighbour]--;
+               if(indegree[neighbour]==0)queue.add(neighbour);
+           }
+       }
+        if (ans.length() != k) {
+            return ""; // invalid order, possibly due to a cycle
+        }
+       return ans;
+    }
+}
