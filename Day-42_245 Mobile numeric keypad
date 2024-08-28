@@ -1,0 +1,72 @@
+Mobile numeric keypad(Gfg)
+
+class Solution {
+    public long getCount(int n) {
+        List<Integer>[] graph = new List[10];
+        // int k;
+        for(int i = 0; i<10; i++) {
+            graph[i] = new ArrayList<>();
+            graph[i].add(i);
+        }
+        
+        graph[0].add(8);
+        graph[1].add(2);
+        graph[1].add(4);
+        graph[2].add(1);
+        graph[2].add(3);
+        graph[2].add(5);
+        graph[3].add(2);
+        graph[3].add(6);
+        graph[4].add(1);
+        graph[4].add(5);
+        graph[4].add(7);
+        graph[5].add(2);
+        graph[5].add(4);
+        graph[5].add(6);
+        graph[5].add(8);
+        graph[6].add(3);
+        graph[6].add(5);
+        graph[6].add(9);
+        graph[7].add(4);
+        graph[7].add(8);
+        graph[8].add(5);
+        graph[8].add(9);
+        graph[8].add(7);
+        graph[8].add(0);
+        graph[9].add(6);
+        graph[9].add(8);
+        
+        long ans = 0;
+        
+        long dp[][] = new long[n+1][10];
+        for(int i = 0; i<10; i++) {
+            dp[0][i] = 0; dp[1][i] = 1;
+        }
+            
+        for(int i = 2; i<=n; i++){
+            for(int j = 0; j<10; j++) {
+                for(int k: graph[j])
+                    dp[i][j] += dp[i-1][k];
+            }
+        }
+        
+        for(int j = 0; j<10; j++)
+            ans += dp[n][j];
+        // for(int i = 0; i<10; i++) {
+        //     Queue<Integer> queue = new LinkedList<Integer>();
+        //     queue.add(i);
+        //     k = n;
+        //     while(!queue.isEmpty() && k-- != 1) {
+        //         int size = queue.size();
+        //         while(size-- != 0) {
+        //             int front = queue.poll();
+        //             for(int j: graph[front]) {
+        //                 queue.add(j);
+        //             }   
+        //         }
+        //     }
+        //     ans += queue.size();
+        // }
+        return ans;
+    }
+}
