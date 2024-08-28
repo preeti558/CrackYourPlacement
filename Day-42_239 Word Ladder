@@ -1,0 +1,49 @@
+127. Word Ladder
+
+class Pair {
+    String first;
+    Integer second;
+    
+    public Pair(String first, Integer second) {
+        this.first = first;
+        this.second = second;
+    }
+}
+
+class Solution {
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        Set<String> wordSet = new HashSet<>();
+        
+        for (String s : wordList) {
+            wordSet.add(s);
+        }
+        
+        if (!wordSet.contains(endWord)) {
+            return 0;
+        }
+        
+        Queue<Pair> queue = new LinkedList<>();
+        queue.offer(new Pair(beginWord, 1));
+        wordSet.remove(beginWord);
+        
+        while (!queue.isEmpty()) {
+            Pair current = queue.poll();
+            if (current.first.equals(endWord)) {
+                return current.second;
+            }
+            for (int i=0; i<current.first.length(); i++) {
+                for (char c = 'a'; c <= 'z'; c++) {
+                    char [] chr = current.first.toCharArray();
+                    chr[i] = c;
+                    String newWord = new String(chr);
+                    if (wordSet.contains(newWord)) {
+                        queue.offer(new Pair(newWord, current.second + 1));
+                        wordSet.remove(newWord);
+                    }
+                }
+            }
+        }
+        
+        return 0;
+    }
+}
