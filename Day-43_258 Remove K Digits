@@ -1,0 +1,25 @@
+402. Remove K Digits
+
+class Solution {
+    public String removeKdigits(String num, int k) {
+        int resLen = num.length()-k;
+        if(num.length()<=k) return "0";
+        char[] str = num.toCharArray();
+        int start=0, top=-1;
+        for(int i=0;i<str.length ;i++){
+        while(k>0 && top>=0 && str[top] > str[i]){
+            top--;
+            k--;
+        }
+        top++;
+        str[top] = str[i];
+        }
+        while(start <=top && str[start]=='0') start++;
+        String ans ="";
+        for(int i=start;i<resLen ;i++){
+            ans+=str[i];
+        }
+        if(ans.equals("")) return "0";
+        return ans;
+    }
+}
