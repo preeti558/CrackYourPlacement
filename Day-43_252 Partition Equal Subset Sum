@@ -1,0 +1,36 @@
+Partition Equal Subset Sum(Gfg)
+
+class Solution{
+   static int equalPartition(int N, int arr[])
+    {
+        // code here
+        int totSum = 0;
+        for(int val : arr){
+            totSum += val;
+        }
+        
+        if(totSum % 2 != 0){
+            return 0;
+        }
+        
+        int targetSum = totSum /2;
+        
+        return canPartition(arr, N ,targetSum , 0) ? 1 : 0;
+    }
+    
+    static boolean canPartition(int[] arr, int N, int targetSum, int currIndex){
+        if(targetSum == 0){
+            return true;
+        }
+        
+        if(currIndex >= N || targetSum < 0){
+            return false;
+        }
+        
+        if(canPartition(arr, N, targetSum - arr[currIndex], currIndex+1)){
+            return true;
+        }
+        
+        return canPartition(arr, N, targetSum, currIndex+1);
+    }
+}
