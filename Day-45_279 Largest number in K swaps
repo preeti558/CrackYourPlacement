@@ -1,0 +1,56 @@
+Largest number in K swaps(Gfg)
+
+class Solution
+{
+    //Function to find the largest number after k swaps.
+    public static String findMaximumNum(String str, int k)
+        {
+            //code here.
+        // Initialize the maximum number as the input string.
+        String[] max = new String[1];
+        max[0] = str;
+        
+        // Call the helper function to perform swaps.
+        findMaximumNumHelper(str.toCharArray(), k, max);
+        
+        return max[0];
+    }
+
+    private static void findMaximumNumHelper(char[] str, int k, String[] max) {
+        // Base case: if no swaps left, return.
+        if (k == 0) {
+            return;
+        }
+
+        int n = str.length;
+
+        // Traverse the string and try to swap each character with every other character.
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = i + 1; j < n; j++) {
+                // Swap if the character at j is greater than the character at i.
+                if (str[i] < str[j]) {
+                    swap(str, i, j);
+
+                    // If the new string is greater than the current maximum, update the maximum.
+                    String newStr = new String(str);
+                    if (newStr.compareTo(max[0]) > 0) {
+                        max[0] = newStr;
+                    }
+
+                    // Recur for the remaining swaps.
+                    findMaximumNumHelper(str, k - 1, max);
+
+                    // Backtrack by swapping the characters back.
+                    swap(str, i, j);
+                }
+            }
+        }
+    }
+
+    // Utility function to swap characters at positions i and j in the array.
+    private static void swap(char[] str, int i, int j) {
+        char temp = str[i];
+        str[i] = str[j];
+        str[j] = temp;
+    }
+}
